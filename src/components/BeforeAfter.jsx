@@ -2,6 +2,10 @@ import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, ArrowLeftRight } from 'lucide-react'
 
+// ✅ NEW IMAGES
+import beforeImg from '../assets/dusty.jpg'
+import afterImg from '../assets/clean.jpg'
+
 const BeforeAfter = () => {
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: "-100px" })
@@ -17,7 +21,8 @@ const BeforeAfter = () => {
             <div className="absolute inset-0 bg-black-deep" />
 
             <div className="relative z-10 container mx-auto px-4 lg:px-8">
-                {/* Section Header */}
+
+                {/* Header */}
                 <motion.div
                     className="text-center mb-16"
                     initial={{ opacity: 0, y: 30 }}
@@ -27,16 +32,18 @@ const BeforeAfter = () => {
                     <span className="inline-block px-4 py-1 rounded-full border border-gold/30 text-gold text-sm font-medium mb-6">
                         Our Work
                     </span>
+
                     <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6">
                         <span className="text-white">Before & </span>
                         <span className="text-gradient">After</span>
                     </h2>
+
                     <p className="text-white/60 text-lg max-w-2xl mx-auto">
                         See the transformation our premium service delivers
                     </p>
                 </motion.div>
 
-                {/* Before/After Slider Placeholder */}
+                {/* Slider */}
                 <motion.div
                     className="max-w-4xl mx-auto"
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -44,37 +51,40 @@ const BeforeAfter = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
                     <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
-                        {/* Before Side */}
+
+                        {/* BEFORE (Dusty) */}
                         <div
-                            className="absolute inset-0 bg-gradient-to-r from-red-900/20 to-red-900/5 flex items-center justify-center"
+                            className="absolute inset-0"
                             style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
                         >
-                            <div className="text-center">
-                                <span className="text-6xl mb-4 block">🚗💨</span>
-                                <span className="text-white/50 text-xl">Before</span>
-                                <p className="text-white/30 mt-2">Dusty & Dirty</p>
-                            </div>
+                            <img
+                                src={beforeImg}
+                                alt="Before"
+                                className="w-full h-full object-cover"
+                            />
+
                             <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-sm font-medium">
                                 Before
                             </div>
                         </div>
 
-                        {/* After Side */}
+                        {/* AFTER (Clean) */}
                         <div
-                            className="absolute inset-0 bg-gradient-to-r from-green-900/5 to-green-900/20 flex items-center justify-center"
+                            className="absolute inset-0"
                             style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}
                         >
-                            <div className="text-center">
-                                <span className="text-6xl mb-4 block">✨🚗✨</span>
-                                <span className="text-gold text-xl">After</span>
-                                <p className="text-gold/50 mt-2">Clean & Shining</p>
-                            </div>
+                            <img
+                                src={afterImg}
+                                alt="After"
+                                className="w-full h-full object-cover"
+                            />
+
                             <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm font-medium">
                                 After
                             </div>
                         </div>
 
-                        {/* Slider Handle */}
+                        {/* Slider Line */}
                         <div
                             className="absolute top-0 bottom-0 w-1 bg-gold cursor-ew-resize"
                             style={{ left: `${sliderPosition}%` }}
@@ -84,7 +94,7 @@ const BeforeAfter = () => {
                             </div>
                         </div>
 
-                        {/* Range Input (hidden but functional) */}
+                        {/* Input */}
                         <input
                             type="range"
                             min="0"
@@ -103,14 +113,14 @@ const BeforeAfter = () => {
                     </p>
                 </motion.div>
 
-                {/* Coming Soon Note */}
+                {/* Footer Note */}
                 <motion.p
                     className="text-center text-white/30 mt-8 text-sm"
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : {}}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                    📸 Real before/after photos coming soon!
+                    ✨ Real transformation results
                 </motion.p>
             </div>
         </section>
