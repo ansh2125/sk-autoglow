@@ -18,10 +18,24 @@ const Hero = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // ✅ 🔥 FIXED SCROLL FUNCTION (WITH OFFSET)
     const scrollToBooking = () => {
-        document
-            .querySelector("#booking")
-            ?.scrollIntoView({ behavior: "smooth" });
+        const element = document.querySelector("#booking");
+
+        if (element) {
+            const offset = 100; // navbar height
+
+            const elementPosition =
+                element.getBoundingClientRect().top + window.scrollY;
+
+            window.scrollTo({
+                top: elementPosition - offset,
+                behavior: "smooth",
+            });
+
+            // URL update
+            window.history.pushState(null, "", "#booking");
+        }
     };
 
     return (
@@ -56,7 +70,7 @@ const Hero = () => {
                     >
                         <Sparkles className="w-4 h-4 text-yellow-400" />
                         <span className="text-yellow-400 text-sm">
-                            Premium Doorstep Service
+                            Daily Premium Car Cleaning Service
                         </span>
                     </motion.div>
 
@@ -76,17 +90,17 @@ const Hero = () => {
                         Premium doorstep car & bike cleaning service in your society parking.
                         <br />
                         <span className="text-yellow-400">
-                            Scratch-free cleaning using 800 GSM microfiber cloth.
+                            We use high quality products like 800 GSM microfiber cloths.
                         </span>
                     </p>
 
-                    {/* Buttons */}
+                    {/* 🔥 BUTTONS */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button
                             onClick={scrollToBooking}
                             className="px-8 py-4 rounded-full bg-yellow-400 text-black font-bold hover:scale-105 transition"
                         >
-                            ✨ Book Free Demo
+                            ✨ Book Free Slot
                         </button>
 
                         <a
@@ -121,7 +135,9 @@ const Hero = () => {
                         <p className="text-lg font-bold mt-2">
                             Free Bike Cleaning
                         </p>
-                        <p className="text-sm mt-1">Every Day 🚀</p>
+                        <p className="text-sm mt-1">
+                            Only for First 100 Customers in Each Society 🚀
+                        </p>
                     </div>
                 </motion.div>
             )}
@@ -149,7 +165,7 @@ const Hero = () => {
                                 Free Bike Cleaning
                             </p>
                             <p className="text-xs mt-1">
-                                Every Day 🚀
+                                Only for First 100 Customers in Each Society 🚀
                             </p>
                         </div>
                     </div>

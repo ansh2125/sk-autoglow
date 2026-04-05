@@ -68,7 +68,7 @@ const Navbar = () => {
 
                             {/* Brand Name */}
                             <span className="text-xl font-bold text-white">
-                                Auto<span className="text-yellow-400">Glow</span>
+                                SK-<span className="text-yellow-400">AutoGlow</span>
                             </span>
                         </motion.a>
 

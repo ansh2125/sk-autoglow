@@ -73,7 +73,7 @@ const WhyChooseUs = () => {
 
                     {/* 🔥 NEW PREMIUM TEXT */}
                     <p className="text-white/60 text-lg max-w-3xl mx-auto leading-relaxed mb-4">
-                        We are not your ordinary presswale bhaiya who just clean your car with a basic cloth.
+                        We are not your ordinary <span className='text-gold font-bold'> presswale bhaiya</span> who just clean your car with a basic cloth.
                         Our professional team is trained to treat your car with the highest care, using only
                         <span className="text-gold"> 800 GSM microfiber cloths</span>.
                         Unlike ordinary cloths that cause micro-scratches and dull your car’s shine, we ensure a scratch-free, brilliant finish every time.

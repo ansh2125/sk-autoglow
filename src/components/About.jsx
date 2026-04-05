@@ -68,7 +68,7 @@ const About = () => {
                             <span className="text-gradient">Precious Vehicle</span>
                         </h2>
 
-                        {/* Updated Premium Content */}
+                        {/* Paragraph 1 */}
                         <p className="text-white/60 text-lg mb-6 leading-relaxed">
                             At SK AutoGlow, we believe every morning should start with a moment of beauty.
                             Before your day even begins, our trained team arrives, using luxurious
@@ -76,8 +76,14 @@ const About = () => {
                             and premium polish, ensuring every detail sparkles.
                         </p>
 
+                        {/* Paragraph 2 */}
                         <p className="text-white/60 text-lg mb-10 leading-relaxed">
                             We don’t just clean; we care—infusing air into your tires, vacuuming every inch—so you step into your day with a car that reflects your best self.
+                        </p>
+
+                        {/* ✅ 🔥 TAGLINE ADDED */}
+                        <p className="text-gold text-lg font-semibold italic text-center mt-6 mb-10">
+                            जो गाड़ी से करे प्यार, वो SK-AutoGlow से कैसे करे इनकार
                         </p>
 
                         {/* Features */}

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // ✅ useEffect add
 import { User, Phone, MapPin, Car, Home, Hash, CheckCircle } from "lucide-react";
 
 const BookingForm = () => {
@@ -16,6 +16,19 @@ const BookingForm = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+    // ✅ 🔥 AUTO SELECT PLAN FROM URL
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const selectedPlan = params.get("plan");
+
+        if (selectedPlan) {
+            setFormData((prev) => ({
+                ...prev,
+                plan: selectedPlan,
+            }));
+        }
+    }, []);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         setErrors({ ...errors, [e.target.name]: "" });
@@ -24,19 +37,16 @@ const BookingForm = () => {
     const validate = () => {
         let newErrors = {};
 
-        // Required
         Object.keys(formData).forEach((key) => {
             if (!formData[key]) {
                 newErrors[key] = "This field is required";
             }
         });
 
-        // Phone validation
         if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
             newErrors.phone = "Phone must be exactly 10 digits";
         }
 
-        // Vehicle number validation (basic)
         if (formData.vehicleNumber && formData.vehicleNumber.length < 8) {
             newErrors.vehicleNumber = "Enter valid vehicle number";
         }
@@ -53,7 +63,7 @@ const BookingForm = () => {
         try {
             await fetch("https://script.google.com/macros/s/AKfycbyYH8pnKHGsgf4w9gFus3Imm3Udx7xFUXrrS-uL6aUziu64iYn-jsZLiQRZOV2wuvdV/exec", {
                 method: "POST",
-                mode: "no-cors",   // 🔥 THIS LINE FIXES EVERYTHING
+                mode: "no-cors",
                 body: JSON.stringify({
                     secret: "SK_AUTO_GLOW_2026",
                     name: formData.name,
@@ -82,12 +92,15 @@ const BookingForm = () => {
             }, 4000);
 
         } catch (err) {
-            alert("Something went wrong ");
+            alert("Something went wrong");
         }
     };
 
     return (
-        <section className="py-28 bg-black flex justify-center">
+        <section
+            id="booking"
+            className="py-28 scroll-mt-28 bg-black flex justify-center"
+        >
             <div className="w-full max-w-5xl px-6">
 
                 <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-[0_0_40px_rgba(255,215,0,0.1)]">
@@ -107,8 +120,6 @@ const BookingForm = () => {
                             </h3>
 
                             <p className="text-white/60">
-                                Your request has been submitted successfully.
-                                <br />
                                 Our team will contact you shortly.
                             </p>
                         </motion.div>
@@ -140,7 +151,6 @@ const BookingForm = () => {
                                 </div>
                             ))}
 
-                            {/* Vehicle Type */}
                             <div>
                                 <select
                                     name="vehicleType"
@@ -154,10 +164,9 @@ const BookingForm = () => {
                                     <option>SUV</option>
                                     <option>Bike</option>
                                 </select>
-                                {errors.vehicleType && <p className="text-red-400 text-sm">{errors.vehicleType}</p>}
                             </div>
 
-                            {/* Plan */}
+                            {/* ✅ PLAN AUTO + MANUAL BOTH */}
                             <div>
                                 <select
                                     name="plan"
@@ -167,13 +176,11 @@ const BookingForm = () => {
                                 >
                                     <option value="">Choose Plan</option>
                                     <option>Basic</option>
+                                    <option>Standard</option>
                                     <option>Premium</option>
-                                    <option>Pro</option>
                                 </select>
-                                {errors.plan && <p className="text-red-400 text-sm">{errors.plan}</p>}
                             </div>
 
-                            {/* Button */}
                             <div className="md:col-span-2">
                                 <motion.button
                                     type="submit"
@@ -187,7 +194,6 @@ const BookingForm = () => {
 
                         </form>
                     )}
-
                 </div>
             </div>
         </section>

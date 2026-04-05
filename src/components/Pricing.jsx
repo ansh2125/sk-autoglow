@@ -54,7 +54,7 @@ const Pricing = () => {
                 'Tyre Air Check',
                 'Vacuum Cleaning',
                 'Priority Support',
-                'Monthly Detailing',
+
             ],
             popular: false,
         },
@@ -96,8 +96,8 @@ const Pricing = () => {
                         <motion.div
                             key={plan.name}
                             className={`relative rounded-3xl p-1 ${plan.popular
-                                    ? 'bg-gradient-to-b from-gold via-gold/50 to-gold/20'
-                                    : 'bg-gradient-to-b from-white/10 to-white/5'
+                                ? 'bg-gradient-to-b from-gold via-gold/50 to-gold/20'
+                                : 'bg-gradient-to-b from-white/10 to-white/5'
                                 }`}
                             initial={{ opacity: 0, y: 50 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -158,8 +158,8 @@ const Pricing = () => {
                                 {/* CTA Button */}
                                 <motion.button
                                     className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${plan.popular
-                                            ? 'bg-gradient-to-r from-gold to-gold-light text-black shine-effect'
-                                            : 'border-2 border-white/20 text-white hover:border-gold hover:text-gold'
+                                        ? 'bg-gradient-to-r from-gold to-gold-light text-black shine-effect'
+                                        : 'border-2 border-white/20 text-white hover:border-gold hover:text-gold'
                                         }`}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
