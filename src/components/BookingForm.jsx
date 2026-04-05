@@ -1,211 +1,197 @@
-import { motion, useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { Send, User, Phone, Car, MapPin, Loader2, CheckCircle } from 'lucide-react'
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { User, Phone, MapPin, Car, Home, Hash, CheckCircle } from "lucide-react";
 
 const BookingForm = () => {
-    const ref = useRef(null)
-    const isInView = useInView(ref, { once: true, margin: "-100px" })
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [isSubmitted, setIsSubmitted] = useState(false)
     const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        carType: '',
-        location: '',
-    })
+        name: "",
+        phone: "",
+        location: "",
+        flat: "",
+        vehicleType: "",
+        vehicleNumber: "",
+        plan: "",
+    });
+
+    const [errors, setErrors] = useState({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        })
-    }
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrors({ ...errors, [e.target.name]: "" });
+    };
+
+    const validate = () => {
+        let newErrors = {};
+
+        // Required
+        Object.keys(formData).forEach((key) => {
+            if (!formData[key]) {
+                newErrors[key] = "This field is required";
+            }
+        });
+
+        // Phone validation
+        if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
+            newErrors.phone = "Phone must be exactly 10 digits";
+        }
+
+        // Vehicle number validation (basic)
+        if (formData.vehicleNumber && formData.vehicleNumber.length < 8) {
+            newErrors.vehicleNumber = "Enter valid vehicle number";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setIsSubmitting(true)
+        e.preventDefault();
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        if (!validate()) return;
 
-        setIsSubmitting(false)
-        setIsSubmitted(true)
+        try {
+            await fetch("https://script.google.com/macros/s/AKfycbyYH8pnKHGsgf4w9gFus3Imm3Udx7xFUXrrS-uL6aUziu64iYn-jsZLiQRZOV2wuvdV/exec", {
+                method: "POST",
+                mode: "no-cors",   // 🔥 THIS LINE FIXES EVERYTHING
+                body: JSON.stringify({
+                    secret: "SK_AUTO_GLOW_2026",
+                    name: formData.name,
+                    mobile: formData.phone,
+                    society: formData.location,
+                    flat: formData.flat,
+                    vehicleType: formData.vehicleType,
+                    vehicleNumber: formData.vehicleNumber,
+                    plan: formData.plan,
+                }),
+            });
 
-        // Reset after 3 seconds
-        setTimeout(() => {
-            setIsSubmitted(false)
-            setFormData({ name: '', phone: '', carType: '', location: '' })
-        }, 3000)
-    }
+            setIsSubmitted(true);
 
-    const carTypes = [
-        'Hatchback / Mini',
-        'Sedan / Mini SUV',
-        'Large SUV',
-        'Bike',
-    ]
+            setTimeout(() => {
+                setIsSubmitted(false);
+                setFormData({
+                    name: "",
+                    phone: "",
+                    location: "",
+                    flat: "",
+                    vehicleType: "",
+                    vehicleNumber: "",
+                    plan: "",
+                });
+            }, 4000);
+
+        } catch (err) {
+            alert("Something went wrong ");
+        }
+    };
 
     return (
-        <section id="booking" className="relative py-24 overflow-hidden" ref={ref}>
-            {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black-deep to-black" />
+        <section className="py-28 bg-black flex justify-center">
+            <div className="w-full max-w-5xl px-6">
 
-            {/* Decorative */}
-            <div className="absolute top-1/2 left-0 w-96 h-96 rounded-full bg-gold/5 blur-3xl -translate-y-1/2" />
-            <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full bg-gold/5 blur-3xl -translate-y-1/2" />
+                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-[0_0_40px_rgba(255,215,0,0.1)]">
 
-            <div className="relative z-10 container mx-auto px-4 lg:px-8">
-                {/* Section Header */}
-                <motion.div
-                    className="text-center mb-16"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="inline-block px-4 py-1 rounded-full border border-gold/30 text-gold text-sm font-medium mb-6">
-                        Get Started
-                    </span>
-                    <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6">
-                        <span className="text-white">Book Your </span>
-                        <span className="text-gradient">Free Demo</span>
-                    </h2>
-                    <p className="text-white/60 text-lg max-w-2xl mx-auto">
-                        Fill in your details and we'll get back to you within 24 hours
-                    </p>
-                </motion.div>
+                    {isSubmitted ? (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="text-center py-12"
+                        >
+                            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                                <CheckCircle className="w-10 h-10 text-green-500" />
+                            </div>
 
-                {/* Form */}
-                <motion.div
-                    className="max-w-2xl mx-auto"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                    <div className="relative p-1 rounded-3xl bg-gradient-to-b from-gold/20 to-transparent">
-                        <div className="bg-black-card rounded-[22px] p-8 md:p-10">
-                            {isSubmitted ? (
-                                <motion.div
-                                    className="text-center py-12"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
+                            <h3 className="text-2xl font-bold text-white mb-2">
+                                Booking Confirmed 🎉
+                            </h3>
+
+                            <p className="text-white/60">
+                                Your request has been submitted successfully.
+                                <br />
+                                Our team will contact you shortly.
+                            </p>
+                        </motion.div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+
+                            {[
+                                { name: "name", icon: User, placeholder: "Full Name" },
+                                { name: "phone", icon: Phone, placeholder: "Mobile Number" },
+                                { name: "location", icon: MapPin, placeholder: "Society / Location" },
+                                { name: "flat", icon: Home, placeholder: "Tower / Flat No" },
+                                { name: "vehicleNumber", icon: Hash, placeholder: "Vehicle Number" },
+                            ].map((field) => (
+                                <div key={field.name}>
+                                    <div className="relative">
+                                        <field.icon className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 w-5 h-5" />
+                                        <input
+                                            type="text"
+                                            name={field.name}
+                                            value={formData[field.name]}
+                                            onChange={handleChange}
+                                            placeholder={field.placeholder}
+                                            className="w-full pl-12 pr-4 py-4 bg-black border border-white/20 rounded-xl text-white focus:border-yellow-400 outline-none"
+                                        />
+                                    </div>
+                                    {errors[field.name] && (
+                                        <p className="text-red-400 text-sm mt-1">{errors[field.name]}</p>
+                                    )}
+                                </div>
+                            ))}
+
+                            {/* Vehicle Type */}
+                            <div>
+                                <select
+                                    name="vehicleType"
+                                    value={formData.vehicleType}
+                                    onChange={handleChange}
+                                    className="w-full py-4 bg-black text-white border border-white/20 rounded-xl"
                                 >
-                                    <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
-                                        <CheckCircle className="w-10 h-10 text-green-500" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                                    <p className="text-white/60">We'll contact you within 24 hours.</p>
-                                </motion.div>
-                            ) : (
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    {/* Name */}
-                                    <div className="relative">
-                                        <label className="block text-white/70 text-sm font-medium mb-2">
-                                            Your Name
-                                        </label>
-                                        <div className="relative">
-                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                                required
-                                                placeholder="Enter your name"
-                                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-black border border-white/10 text-white placeholder-white/30 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
-                                            />
-                                        </div>
-                                    </div>
+                                    <option value="">Vehicle Type</option>
+                                    <option>Hatchback</option>
+                                    <option>Sedan</option>
+                                    <option>SUV</option>
+                                    <option>Bike</option>
+                                </select>
+                                {errors.vehicleType && <p className="text-red-400 text-sm">{errors.vehicleType}</p>}
+                            </div>
 
-                                    {/* Phone */}
-                                    <div className="relative">
-                                        <label className="block text-white/70 text-sm font-medium mb-2">
-                                            Phone Number
-                                        </label>
-                                        <div className="relative">
-                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
-                                            <input
-                                                type="tel"
-                                                name="phone"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                                required
-                                                placeholder="Enter your phone number"
-                                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-black border border-white/10 text-white placeholder-white/30 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
-                                            />
-                                        </div>
-                                    </div>
+                            {/* Plan */}
+                            <div>
+                                <select
+                                    name="plan"
+                                    value={formData.plan}
+                                    onChange={handleChange}
+                                    className="w-full py-4 bg-black text-white border border-white/20 rounded-xl"
+                                >
+                                    <option value="">Choose Plan</option>
+                                    <option>Basic</option>
+                                    <option>Premium</option>
+                                    <option>Pro</option>
+                                </select>
+                                {errors.plan && <p className="text-red-400 text-sm">{errors.plan}</p>}
+                            </div>
 
-                                    {/* Car Type */}
-                                    <div className="relative">
-                                        <label className="block text-white/70 text-sm font-medium mb-2">
-                                            Vehicle Type
-                                        </label>
-                                        <div className="relative">
-                                            <Car className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
-                                            <select
-                                                name="carType"
-                                                value={formData.carType}
-                                                onChange={handleChange}
-                                                required
-                                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-black border border-white/10 text-white focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all appearance-none cursor-pointer"
-                                            >
-                                                <option value="" disabled className="bg-black">Select vehicle type</option>
-                                                {carTypes.map((type) => (
-                                                    <option key={type} value={type} className="bg-black">
-                                                        {type}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
+                            {/* Button */}
+                            <div className="md:col-span-2">
+                                <motion.button
+                                    type="submit"
+                                    whileHover={{ scale: 1.04 }}
+                                    whileTap={{ scale: 0.96 }}
+                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold text-lg"
+                                >
+                                    Book Free Demo
+                                </motion.button>
+                            </div>
 
-                                    {/* Location */}
-                                    <div className="relative">
-                                        <label className="block text-white/70 text-sm font-medium mb-2">
-                                            Location / Society Name
-                                        </label>
-                                        <div className="relative">
-                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
-                                            <input
-                                                type="text"
-                                                name="location"
-                                                value={formData.location}
-                                                onChange={handleChange}
-                                                required
-                                                placeholder="Enter your society/location"
-                                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-black border border-white/10 text-white placeholder-white/30 focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all"
-                                            />
-                                        </div>
-                                    </div>
+                        </form>
+                    )}
 
-                                    {/* Submit Button */}
-                                    <motion.button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="w-full py-4 rounded-xl bg-gradient-to-r from-gold to-gold-light text-black font-bold text-lg shine-effect flex items-center justify-center gap-2 disabled:opacity-70"
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        {isSubmitting ? (
-                                            <>
-                                                <Loader2 className="w-5 h-5 animate-spin" />
-                                                Submitting...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Send className="w-5 h-5" />
-                                                Book Free Demo
-                                            </>
-                                        )}
-                                    </motion.button>
-                                </form>
-                            )}
-                        </div>
-                    </div>
-                </motion.div>
+                </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default BookingForm
+export default BookingForm;

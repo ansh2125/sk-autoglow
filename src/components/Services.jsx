@@ -85,8 +85,16 @@ const Services = () => {
                         <span className="text-yellow-400">Offer</span>
                     </h2>
 
-                    <p className="text-white/60 text-lg max-w-2xl mx-auto">
-                        Comprehensive vehicle care services designed to keep your car in showroom condition, every single day.
+                    {/* 🔥 UPDATED PREMIUM TEXT */}
+                    <p className="text-white/60 text-lg max-w-3xl mx-auto leading-relaxed mb-4">
+                        Your car is a reflection of your daily drive, and we believe it should make a statement.
+                        Studies show that a clean car can boost your confidence and even reduce stress during your commute.
+                    </p>
+
+                    <p className="text-white/60 text-lg max-w-3xl mx-auto leading-relaxed">
+                        At SK AutoGlow, we bring that confidence to life. Every morning, we arrive before your day begins,
+                        gently dusting, polishing with premium microfiber cloths, and detailing every surface—so you step out with a car
+                        that not only gleams, but elevates your whole day.
                     </p>
                 </motion.div>
 
@@ -108,7 +116,6 @@ const Services = () => {
                                     className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                 />
 
-                                {/* Overlay */}
                                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition" />
                             </div>
 
@@ -127,7 +134,6 @@ const Services = () => {
                                 </p>
                             </div>
 
-                            {/* Hover Glow */}
                             <div className="absolute inset-0 bg-gradient-to-t from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition pointer-events-none" />
                         </motion.div>
                     ))}

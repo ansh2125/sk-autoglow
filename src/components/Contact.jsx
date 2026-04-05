@@ -28,13 +28,13 @@ const Contact = () => {
             href: '#',
             color: 'text-red-400',
         },
-        {
-            icon: Clock,
-            label: 'Working Hours',
-            value: '6 AM - 10 AM, 5 PM - 8 PM',
-            href: '#',
-            color: 'text-yellow-400',
-        },
+        // {
+        //     icon: Clock,
+        //     label: 'Working Hours',
+        //     value: '6 AM - 10 AM, 5 PM - 8 PM',
+        //     href: '#',
+        //     color: 'text-yellow-400',
+        // },
     ]
 
     return (

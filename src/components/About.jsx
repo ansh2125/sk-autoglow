@@ -2,7 +2,6 @@ import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Shield, Droplets, Clock, Award } from 'lucide-react'
 
-// ✅ CAR IMAGE IMPORT
 import carImg from "../assets/car1.jpg"; // filename check kar lena
 
 const About = () => {
@@ -24,7 +23,6 @@ const About = () => {
             <div className="relative z-10 container mx-auto px-4 lg:px-8">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-                    {/* 🔥 IMAGE SIDE */}
                     <motion.div
                         className="relative"
                         initial={{ opacity: 0, x: -50 }}
@@ -33,17 +31,14 @@ const About = () => {
                     >
                         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden gold-border">
 
-                            {/* ✅ CAR IMAGE */}
                             <img
                                 src={carImg}
                                 alt="Car Cleaning"
                                 className="w-full h-full object-cover"
                             />
 
-                            {/* Overlay for premium look */}
                             <div className="absolute inset-0 bg-black/30" />
 
-                            {/* 🔥 FLOATING CARD (UPPER POSITION) */}
                             <motion.div
                                 className="absolute top-6 right-6 bg-black-card border border-gold/20 rounded-xl p-4 shadow-2xl"
                                 animate={{ y: [0, -10, 0] }}
@@ -58,7 +53,6 @@ const About = () => {
                         </div>
                     </motion.div>
 
-                    {/* CONTENT SIDE */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -74,14 +68,16 @@ const About = () => {
                             <span className="text-gradient">Precious Vehicle</span>
                         </h2>
 
-                        <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                            SK AutoGlow brings premium vehicle care right to your doorstep.
-                            We ensure your vehicle always shines like new.
+                        {/* Updated Premium Content */}
+                        <p className="text-white/60 text-lg mb-6 leading-relaxed">
+                            At SK AutoGlow, we believe every morning should start with a moment of beauty.
+                            Before your day even begins, our trained team arrives, using luxurious
+                            <span className="text-gold"> 800 GSM microfiber cloths </span>
+                            and premium polish, ensuring every detail sparkles.
                         </p>
 
                         <p className="text-white/60 text-lg mb-10 leading-relaxed">
-                            With our <span className="text-gold">800 GSM microfiber cloths</span>,
-                            we guarantee scratch-free cleaning.
+                            We don’t just clean; we care—infusing air into your tires, vacuuming every inch—so you step into your day with a car that reflects your best self.
                         </p>
 
                         {/* Features */}
